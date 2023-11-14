@@ -15,13 +15,24 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.urls import path, include
-from .views import HelloAPI, booksAPI, bookAPI, BooksAPI, BookAPI
+from .views import HelloAPI, booksAPI, bookAPI, BooksAPI, BookAPI, BooksAPIMixins, BookAPIMixins, BooksAPIGenerics, BookAPIGenerics, BookViewSet
 
-urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('hello/', HelloAPI),
-    path('fbv/books/', booksAPI),                  # 함수형 뷰의 booksAPI 연결
-    path('fbv/book/<int:bid>', bookAPI),           # 함수형 뷰의 bookAPI 연결
-    path('cbv/books/', BooksAPI.as_view()),        # 클래스형 뷰의 BooksAPI 연결
-    path('cbv/book/<int:bid>', BookAPI.as_view()), # 클래스형 뷰의 BookAPI 연결
-]
+from rest_framework import routers
+
+router = routers.SimpleRouter()
+router.register('books', BookViewSet)
+
+urlpatterns = router.urls
+
+# urlpatterns = [
+#     # path('admin/', admin.site.urls),
+#     path('hello/', HelloAPI),
+#     path('fbv/books/', booksAPI),                    # 함수형 뷰의 booksAPI 연결
+#     path('fbv/book/<int:bid>', bookAPI),             # 함수형 뷰의 bookAPI 연결
+#     path('cbv/books/', BooksAPI.as_view()),          # 클래스형 뷰의 BooksAPI 연결
+#     path('cbv/book/<int:bid>', BookAPI.as_view()),   # 클래스형 뷰의 BookAPI 연결
+#     path('mixins/books/', BooksAPIMixins.as_view()), 
+#     path('mixins/book/<int:bid>', BookAPIMixins.as_view()), 
+#     path('generics/books/', BooksAPIGenerics.as_view()), 
+#     path('generics/book/<int:bid>', BookAPIGenerics.as_view()), 
+# ]
