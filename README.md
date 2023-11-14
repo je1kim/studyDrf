@@ -13,12 +13,12 @@
       => 아주 기본척인 형태에서 다양한 방법으로 확정될 수 있다는 장점이 있음
     - FBV와 CBV의 성능의 큰 차이는 없음
 
-    *** DRF 개발 절차
-    (1) MODEL 
-    (2) Serializers
-    (3) Views
-    (4) URLs
-    (5) 다시 2번으로
+    *** DRF 개발 절차 \n
+    (1) MODEL  \n
+    (2) Serializers \n
+    (3) Views \n
+    (4) URLs \n
+    (5) 다시 2번으로 \n
 
   * 2023-11-14 : DRF mixins/generics/viewset & Router  학습 ; 중복적으로 사용하는 내용을 간소화 시켜주는 기능을 함
     - [mixins]
