@@ -6,6 +6,27 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token # Token 모델
 from rest_framework.validators import UniqueValidator # 이메일 중복 방지를 위한 검증 도구
 
+from django.contrib.auth import authenticate # Django의 기본 authenticate 함수, 우리가 설정한 DefaultAuthBackend인 TokenAuth 방식으로 유저를 인증해줌
+
+"""
+    로그인 프로세스는 사용자가 ID/PW를 적어서 보내줬을 때 이를 확인하여 그에 해당하는 토큰을 응답하기만 하면 되기 때문에
+    이 작업들을 위해 ModelSerializer를 사용할 필요가 없음
+"""
+class LoginSerializer(serializers.Serializer):
+    
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True) # write_only 옵션을 통해 클라이언트 -> 서버 방향의 역질렬화는 가능,
+                                                                     # 서버 -> 클라이언트 방향의 질렬화는 불가능
+    
+    def validate(self, data):
+        user = authenticate(**data)
+        if user:
+            token = Token.objects.get(user=user)
+            return token
+        raise serializers.ValidationError(
+            {"error": "Unable to log in with provided credentials."}
+        )
+
 class RegisterSerializer(serializers.ModelSerializer): # 회원가입 시리얼라이저
     email    = serializers.EmailField(
         required   = True,
